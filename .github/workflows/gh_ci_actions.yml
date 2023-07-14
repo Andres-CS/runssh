@@ -34,5 +34,5 @@ jobs:
 
       - name: Bats testing
         run: | 
-          bats ../test/test_1.bats
-          bats ../test/test_2.bats
+          bats ./test/test_1.bats
+          bats ./test/test_2.bats
