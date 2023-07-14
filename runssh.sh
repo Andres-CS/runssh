@@ -133,7 +133,7 @@ else
 
 fi
 
-read -p "Host Number: " answ
+read -t 3 -p "Host Number: " answ
 
 if [ -z "$answ" ]
 then
