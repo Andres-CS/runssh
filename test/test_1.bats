@@ -1,6 +1,6 @@
 setup() {
-    load './test/test_helper/bats-support/load'
-    load './test/test_helper/bats-assert/load'
+    load 'test_helper/bats-support/load.bash'
+    load 'test_helper/bats-assert/load.bash'
 
     DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )"
     PATH="$DIR/../src:$PATH"
