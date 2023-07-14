@@ -34,7 +34,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-     # Install Bat and check version
-     - name: Install Bat and get version
-       run: apt-get install bats
-            bats -v
+
+      # Runs a set of commands using the runners shell
+      - name: Install Bat and get version
+        run: |
+          apt-get install bats
+          bats -v
