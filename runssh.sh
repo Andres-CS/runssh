@@ -36,6 +36,18 @@ create_array(){
     echo ${tmp_array[@]}
 }
 
+largest_string(){
+    local len=0
+    for n in $@
+    do
+        if [ $len -lt ${#n} ]
+        then
+            len=${#n}
+        fi
+    done
+    echo $len
+}
+
 install_figma(){
     os_release="/etc/os-release"
     insystem=$(which figlet)
@@ -72,6 +84,7 @@ fi
 # --- STORE HOSTS IN ARRAY
 declare -a hostArray=()
 declare -a hostnameArray=()
+declare -a menued_hostArray=()
 
 for n in $(create_array $target_path "Host")
 do
@@ -83,18 +96,26 @@ do
     hostnameArray+=($m)
 done
 
-
-
 # --- USER UI --- 
 
-welcome_msg
+welcome_msg 
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
 then
+    # Menu Items
+    postFix="@"
+    maxlen=`largest_string ${hostArray[@]}`
+
     c=0
     for ((c=0; c<${#hostArray[@]}; c++))
     do 
-        succ_msg "$c - ${hostArray[$c]} -> ${hostnameArray[$c]}"
+        # Create var 'ws' with x number of whitespaces
+        # Truncate up to largest word 'maxlen'
+        # Print enclosed with quotes for it to show the whitespaces
+        printf -v ws %20s
+        hostArray[$c]=${hostArray[$c]}$ws
+        hostArray[$c]=${hostArray[$c]:0:$maxlen}
+        succ_msg "$c - ${hostArray[$c]}  ${postFix}  ${hostnameArray[$c]}"
     done
 else
     count=0
@@ -112,6 +133,16 @@ else
 
 fi
 
-read -p "Host Number:" answ
+read -p "Host Number: " answ
 
-gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
+if [ -z "$answ" ]
+then
+    err_msg "No option selected. Exiting"
+else
+    if [ $answ -gt $c ]
+    then 
+        err_msg "Option seleted: ${answ}, not valid. Exiting"
+    else
+        gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
+    fi
+fi
