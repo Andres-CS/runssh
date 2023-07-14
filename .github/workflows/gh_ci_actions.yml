@@ -40,6 +40,9 @@ jobs:
           echo "RUNNING cd test folder"
           cd ./test
           ls -R
+          echo "RUNNING cd test_helper"
+          cd ./test_helper/bats-assert
+          ll -R
 
 #       - name: Bats testing
 #         run: | 
