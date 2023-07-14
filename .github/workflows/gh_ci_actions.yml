@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI Bat
 
 # Controls when the workflow will run
 on:
@@ -34,3 +34,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+     # Install Bat and check version
+     - name: Install Bat and get version
+       run: apt-get install bats
+            bats -v
