@@ -35,8 +35,8 @@ jobs:
           bats -v
           echo "RUNNING pwd"
           pwd
-          echo "RUNNING ll"
-          ll
+          echo "RUNNING ls -a"
+          ls -a
 
       - name: Bats testing
         run: | 
