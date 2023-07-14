@@ -31,10 +31,12 @@ jobs:
             node-version: '14'
       - run: |
           npm install -g bats
-          npm install -g bats-assert
-          npm install -g bats-support
       - run: |
           bats -v
+          echo "RUNNING pwd"
+          pwd
+          echo "RUNNING ll"
+          ll
 
       - name: Bats testing
         run: | 
