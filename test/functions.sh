@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 # --- Functions ---
 
 welcome_msg(){
