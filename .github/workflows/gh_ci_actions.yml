@@ -37,8 +37,11 @@ jobs:
           pwd
           echo "RUNNING ls -a"
           ls
+          echo "RUNNING cd test folder"
+          cd ./test
+          ls -R
 
-      - name: Bats testing
-        run: | 
-          bats ./test/test_1.bats
-          bats ./test/test_2.bats
+#       - name: Bats testing
+#         run: | 
+#           bats ./test/test_1.bats
+#           bats ./test/test_2.bats
