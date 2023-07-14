@@ -29,7 +29,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
             node-version: '14'
-      - run: npm install -g bats
+      - run: |
+          npm install -g bats
+          npm install -g bats-assert
+          npm install -g bats-support
       - run: |
           bats -v
 
