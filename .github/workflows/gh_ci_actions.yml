@@ -29,22 +29,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
             node-version: '14'
-      - run: |
+      - name: Install Dependencies
+        run: |
           npm install -g bats
-      - run: |
-          bats -v
-          echo "RUNNING pwd"
-          pwd
-          echo "RUNNING ls -a"
-          ls
-          echo "RUNNING cd test folder"
-          cd ./test
-          ls -R
-          echo "RUNNING cd test_helper"
-          cd ./test_helper/bats-assert
-          ll -R
-
-#       - name: Bats testing
-#         run: | 
-#           bats ./test/test_1.bats
-#           bats ./test/test_2.bats
+          npm install -g bats-assert
+          npm install -g bats-support
+      
+      - name: Run Test
+        run: npm run test
