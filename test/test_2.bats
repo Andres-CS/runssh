@@ -7,6 +7,6 @@ setup() {
 }
 
 @test "Test run runssh" {
-    run ./runssh.sh
+    run ./src/runssh.sh
     assert_output --partial 'Welcome'
 }
