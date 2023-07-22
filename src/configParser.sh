@@ -9,6 +9,32 @@ function getPrefixes(){
 	echo ${prfx[@]}
 }
 
+function getOptions(){
+	local -a opts=()
+	fileName=$1
+	opts=$(grep ^$2[A-Za-z]* $fileName)
+	echo ${opts[@]}
+}
+
+function getAttributes(){
+	echo $(echo $1 | cut -d ">" -f 1)
+}
+
+function getValues(){
+	echo $(echo $1 | cut -d ">" -f 2)
+}
+
 items=( $(getPrefixes $file) )
 
-echo ${#items[@]}
+#echo ${#items[@]}
+
+#getOptions $file "1_"
+
+for i in ${items[@]}
+do
+	for opt in $(getOptions $file $i)
+	do
+		echo $(getAttributes $opt)
+		echo $(getValues $opt)
+	done
+done
