@@ -48,18 +48,10 @@ Paremeters:(string filename, [string] prefixes)
 Returns: bool
 comment
 function missingOptions(){
-	# file=$1
-	local -a prfx=()
-	# prfx=("$@")
+	local -a prfxs=()
+	prfxs=("${@:2:$#}")
 
-	#prfx=("${prfx[@]:1:2}" "${prfx[@]:3:1}")
-
-	prfx=("${@:2:$#}")
-	# "${@:3:1}")
-
-	echo ${prfx[@]}
-
-	for p in ${prfx[@]}
+	for p in ${prfxs[@]}
 	do
 		if grep -q ^$p $1
 		then
@@ -69,6 +61,7 @@ function missingOptions(){
 		fi
 	done
 
+	echo $missing
 }
 
 items=( $(getPrefixes $file) )
@@ -86,4 +79,4 @@ items=( $(getPrefixes $file) )
 # done
 
 
-missingOptions $file ${items[@]}
+echo $(missingOptions $file ${items[@]})
