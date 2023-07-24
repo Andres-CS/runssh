@@ -49,6 +49,7 @@ Returns: bool
 comment
 function missingOptions(){
 	local -a prfxs=()
+	#Slice arg array from pos 2.
 	prfxs=("${@:2:$#}")
 
 	for p in ${prfxs[@]}
