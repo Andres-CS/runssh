@@ -1,8 +1,14 @@
+#Prefixes for Options
 prefix > 1_:2_:3_
 
-1_name>runsshCOnfig
+
+#Set of Options
+1_name>runsshConfig
 1_path>./config/config.runssh
 
 
 2_name>sshConfig
 2_path>~/.ssh/config
+
+3_name>NanoConfig
+3_path>~/.nanorc

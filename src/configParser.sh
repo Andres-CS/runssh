@@ -1,10 +1,11 @@
 #!/bin/bash
 
-file="/home/jairo/Development/2_Runssh/config/config.runssh"
+# file="/home/jairo/Development/2_Runssh/config/config.runssh"
+# file="/home/jarvis/Development/4_runssh/config/config.runssh"
 
 
 <<comment
-Paremeters:(string filename)
+Paremeters: (string filename)
 Returns: [string] prfx
 comment
 function getPrefixes(){
@@ -26,19 +27,45 @@ function getOptions(){
 }
 
 <<comment
+Parameters:([string] Options)
+Returns: [string] attributes
+comment
+function getAttributes(){
+	local -a arrayAtributes=()
+	for opt in $@
+	do
+		arrayAtributes+=($(getAttribute $opt))
+	done
+	echo ${arrayAtributes[@]}
+}
+ 
+<<comment
 Paremeters:(string Option)
 Returns: string attribute
 comment
-function getAttributes(){
+function getAttribute(){
 	attribute=$(echo $1 | cut -d ">" -f 1)
 	echo $attribute
 }
 
 <<comment
-Paremeters:(string Option)
-Returns: string attribute
+Parameters:([string] Options)
+Returns: [string] values
 comment
 function getValues(){
+	local -a arrayValues=()
+	for opt in $@
+	do
+		arrayValues+=($(getValue $opt))
+	done
+	echo ${arrayValues[@]}
+}
+
+<<comment
+Paremeters:(string Option)
+Returns: string value
+comment
+function getValue(){
 	value=$(echo $1 | cut -d ">" -f 2)
 	echo $value
 }
@@ -65,10 +92,10 @@ function missingOptions(){
 	echo $missing
 }
 
-items=( $(getPrefixes $file) )
+# items=( $(getPrefixes $file) )
 
 
-#getOptions $file "1_"
+# getOptions $file "1_"
 
 # for i in ${items[@]}
 # do
@@ -80,4 +107,10 @@ items=( $(getPrefixes $file) )
 # done
 
 
-echo $(missingOptions $file ${items[@]})
+# atts=( $(getAttributes $(getOptions $file "2_")) )
+# for a in ${atts[@]}
+# do
+# 	echo $a
+# done
+
+# echo $(missingOptions $file ${items[@]})
