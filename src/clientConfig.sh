@@ -1,8 +1,6 @@
 #!/bin/bash
+
 source ./configParser.sh
-
-# file="/home/jarvis/Development/4_runssh/config/config.runssh"
-
 
 <<comment
 Parameters: (string filename)

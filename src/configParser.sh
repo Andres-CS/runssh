@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# file="/home/jairo/Development/2_Runssh/config/config.runssh"
-# file="/home/jarvis/Development/4_runssh/config/config.runssh"
-
-
 <<comment
 Paremeters: (string filename)
 Returns: [string] prfx
