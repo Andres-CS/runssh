@@ -5,6 +5,7 @@
         "bats-support": "github:ztombol/bats-support"
     },
     "scripts": {
+        "runssh": "./src/runssh.sh",
         "test": "bats test"
     }
 }
