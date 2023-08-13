@@ -2,10 +2,10 @@
 
 source ./configParser.sh
 
-<<comment
-Parameters: (string filename)
-return: void
-comment
+##
+# Parameters: (string filename)
+# return: void
+##
 function initClientConf(){
     if test -f $1
     then
@@ -17,10 +17,10 @@ function initClientConf(){
 }
 
 
-<<comment
-Parameters: (string item)
-return: various
-comment
+##
+# Parameters: (string item)
+# return: various
+##
 function clientConf(){
     case $1 in
         options)

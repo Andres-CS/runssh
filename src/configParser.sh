@@ -1,9 +1,9 @@
 #!/bin/bash
 
-<<comment
-Paremeters: (string filename)
-Returns: [string] prfx
-comment
+##
+# Paremeters: (string filename)
+# Returns: [string] prfx
+##
 function getPrefixes(){
 	local -a prfx=()
 	#Search prefix then get 2nd field after > and replace ":" for whitespace
@@ -11,10 +11,10 @@ function getPrefixes(){
 	echo ${prfx[@]}
 }
 
-<<comment
-Paremeters: (string filename, string Prefix)
-Returns: [string] opts
-comment
+##
+# Paremeters: (string filename, string Prefix)
+# Returns: [string] opts
+##
 function getOptions(){
 	local -a opts=()
 	fileName=$1
@@ -22,10 +22,10 @@ function getOptions(){
 	echo ${opts[@]}
 }
 
-<<comment
-Parameters:([string] Options)
-Returns: [string] attributes
-comment
+##
+# Parameters:([string] Options)
+# Returns: [string] attributes
+##
 function getAttributes(){
 	local -a arrayAtributes=()
 	for opt in $@
@@ -35,19 +35,19 @@ function getAttributes(){
 	echo ${arrayAtributes[@]}
 }
  
-<<comment
-Paremeters:(string Option)
-Returns: string attribute
-comment
+##
+# Paremeters:(string Option)
+# Returns: string attribute
+##
 function getAttribute(){
 	attribute=$(echo $1 | cut -d ">" -f 1)
 	echo $attribute
 }
 
-<<comment
-Parameters:([string] Options)
-Returns: [string] values
-comment
+##
+# Parameters:([string] Options)
+# Returns: [string] values
+##
 function getValues(){
 	local -a arrayValues=()
 	for opt in $@
@@ -57,19 +57,19 @@ function getValues(){
 	echo ${arrayValues[@]}
 }
 
-<<comment
-Paremeters:(string Option)
-Returns: string value
-comment
+##
+# Paremeters:(string Option)
+# Returns: string value
+##
 function getValue(){
 	value=$(echo $1 | cut -d ">" -f 2)
 	echo $value
 }
 
-<<comment
-Paremeters:(string filename, [string] prefixes)
-Returns: bool
-comment
+##
+# Paremeters:(string filename, [string] prefixes)
+# Returns: bool
+##
 function missingOptions(){
 	local -a prfxs=()
 	#Slice arg array from pos 2.
