@@ -1,8 +1,5 @@
-#Prefixes for Options
 prefix > 1_:2_:3_
 
-
-#Set of Options
 1_name>runsshConfig
 1_path>./config/config.runssh
 

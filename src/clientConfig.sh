@@ -23,22 +23,29 @@ function initClientConf(){
 ##
 function clientConf(){
     case $1 in
+        prefixes)
+            echo $(getPrefixes $RUNSSH_BARCONF);
+            ;;
         options)
-            echo $(getOptions $RUNSSH_BARCONF $(getPrefixes $RUNSSH_BARCONF) )
+            if [ $# -lt 2 ]
+            then
+                return 1
+            fi
+            echo $(getOptions $RUNSSH_BARCONF $2 )
             ;;
         attribute)
             if [ $# -lt 2 ]
             then
                 return 1 
             fi
-            echo $( (getAttributes $(getOptions $RUNSSH_BARCONF "2_")) )
+            echo $( (getAttributes $(getOptions $RUNSSH_BARCONF $2)) )
             ;;
         values)
             if [ $# -lt 2 ]
             then
                 return 1
             fi
-            echo $( (getValues $(getOptions $RUNSSH_BARCONF "2_")) )
+            echo $( (getValues $(getOptions $RUNSSH_BARCONF $2)) )
             ;;
         *)
             return 1
