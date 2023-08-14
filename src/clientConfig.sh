@@ -33,7 +33,7 @@ function clientConf(){
             fi
             echo $(getOptions $RUNSSH_BARCONF $2 )
             ;;
-        attribute)
+        attributes)
             if [ $# -lt 2 ]
             then
                 return 1 

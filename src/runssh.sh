@@ -5,6 +5,8 @@ ERROR_COLOR='\033[0;31m'
 SUCCESS_COLOR='\033[0;32m'
 NO_COLOR='\033[0m'
 
+source ascii_table.sh
+
 
 # --- Functions ---
 
@@ -98,7 +100,9 @@ done
 
 # --- USER UI --- 
 
-welcome_msg 
+welcome_msg
+
+displayTableHeader
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
 then
@@ -133,7 +137,7 @@ else
 
 fi
 
-read -t 3 -p "Host Number: " answ
+read -t 3 -p "Host Number OR Menu Letter: " answ
 
 if [ -z "$answ" ]
 then
