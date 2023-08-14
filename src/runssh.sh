@@ -4,6 +4,8 @@ YELLOW='\033[1;33m'
 ERROR_COLOR='\033[0;31m'
 SUCCESS_COLOR='\033[0;32m'
 NO_COLOR='\033[0m'
+IYellow='\033[0;93m'
+
 
 
 # --- Functions ---
@@ -21,7 +23,11 @@ err_msg(){
 
 succ_msg(){
     echo -e "${SUCCESS_COLOR}$1${NO_COLOR}"
-} 
+}
+
+warning_msg(){
+    echo -e "${IYellow}$1${NO_COLOR}"
+}
 
 create_array(){
     local -a tmp_array=()
@@ -139,10 +145,20 @@ if [ -z "$answ" ]
 then
     err_msg "No option selected. Exiting"
 else
-    if [ $answ -gt $c ]
-    then 
-        err_msg "Option seleted: ${answ}, not valid. Exiting"
+    #Check if user input is not number
+    if [ $((answ)) != $answ ]
+    then
+        warning_msg "You inputed letter: '${answ}'" 
+        warning_msg "Which could be an option in a new feature being implemented."
+        warning_msg "However said feautre is not complete yet."
+        warning_msg "--------"
+        warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
     else
-        gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
-    fi
+        if [ $answ -gt $c ]
+        then 
+            err_msg "Option seleted: ${answ}, not valid. Exiting"
+        else
+            gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
+        fi
+    fi 
 fi
