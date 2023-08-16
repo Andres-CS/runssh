@@ -25,7 +25,6 @@ do
     file=$BASE_DIR"/"$file
     if [ ! -f $file ]
     then
-
         msg_error "The below file cannot be found: \n $file"
         exit 1
     fi
