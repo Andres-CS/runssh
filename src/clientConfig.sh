@@ -46,6 +46,25 @@ function initClientConf(){
 
 
 ##
+# Get the values from the "x_name" attribute in the config file
+# Parameters:
+# return: [string]
+##
+function getAllNameValues(){
+    local -a hdrs=() 
+    for pfx in $(clientConf "prefixes")
+    do
+        for hdr in $(clientConf "values" $pfx)
+        do
+            hrds+=($hdr)
+            break;
+        done
+    done
+    echo ${hrds[@]}
+}
+
+
+##
 # Parameters: (string item)
 # return: various
 ##
