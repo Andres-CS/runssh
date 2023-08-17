@@ -138,6 +138,7 @@ done
 
 welcome_msg
 
+assembleTableHeaderBody $(getAllNameValues)
 displayTableHeader
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]

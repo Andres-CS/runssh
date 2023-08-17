@@ -31,32 +31,16 @@ done
 
 initClientConf $runssh_conf
 
-## --- FUNCTIONS --- 
+TableHeadersBody=""
 
-##
-# Get the values from the "x_name" attribute in the config file
-# Parameters:
-# return: [string]
-##
-function getTableHeaders(){
-    local -a hdrs=() 
-    for pfx in $(clientConf "prefixes")
-    do
-        for hdr in $(clientConf "values" $pfx)
-        do
-            hrds+=($hdr)
-            break;
-        done
-    done
-    echo ${hrds[@]}
-}
+## --- FUNCTIONS --- 
 
 ##
 # Creates array with ASCII lower case letters based on number of params.
 # Parameters: [string] headers
 # return: [string] letters
 ##
-function getMenuLetters(){
+function __getMenuLetters(){
     local menuLetters=()
     local tmpLetter=""
 
@@ -69,16 +53,17 @@ function getMenuLetters(){
 }
 
 ##
-# Concatenaes headers into a string separated by "|" and appended by ASCII lowercase alpha letters.
-# Parameters:
-# return: string
+# Concatenaes headers(parameters) into a string separated by "|" and appended by ASCII lowercase alpha letters.
+# Functions set global variable "TableHeadersBody"
+# Parameters:[string] headerNames
+# return: void
 ##
 function assembleTableHeaderBody(){
     local headerString=""
     local divider="|"
-    local rawHeaders=($(getTableHeaders))
+    local rawHeaders=($@)
     local numHeaders=${#rawHeaders[@]}
-    local menuLetters=($(getMenuLetters ${rawHeaders[@]}))
+    local menuLetters=($(__getMenuLetters ${rawHeaders[@]}))
 
     for ((i=0; i<$numHeaders; i++))
     do
@@ -86,7 +71,8 @@ function assembleTableHeaderBody(){
     done
     headerString+="${divider}"
 
-    echo $headerString
+    #Set global var
+    TableHeadersBody=$headerString
 }
 
 ##
@@ -106,11 +92,7 @@ function addBorder(){
 # return:
 ##
 function displayTableHeader(){
-    local hdr=$(assembleTableHeaderBody)
-    addBorder "$hdr"
-    echo $hdr
-    addBorder "$hdr"
+    addBorder "$TableHeadersBody"
+    echo $TableHeadersBody
+    addBorder "$TableHeadersBody"
 }
-
-# displayTableHeader
-# getMenuLetters $(getTableHeaders)
