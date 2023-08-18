@@ -2,7 +2,7 @@
 
 # ----------- DECLARE DEPENDENCIES -----------
 
-Dependencies=("clientConfig.sh")
+Dependencies=()
 
 # ----------- SOLVE FILE DEPENDENCY -----------
 
@@ -28,8 +28,6 @@ do
 done
 
 # ----------- START SCRIPT -----------
-
-initClientConf $runssh_conf
 
 TableHeadersBody=""
 

@@ -4,6 +4,7 @@
 
 Dependencies=( \
             "../.env" \
+            "clientConfig.sh" \
             "ascii_table.sh" \
             "colors" \
         )
@@ -96,6 +97,8 @@ install_figma(){
 
 # --- START SCRIPT ---
 
+initClientConf $runssh_conf
+
 # --- CHECK CONFIG --- 
 
 #Get Current user
@@ -138,7 +141,10 @@ done
 
 welcome_msg
 
-assembleTableHeaderBody $(getAllNameValues)
+headers=$(getAllNameValues)
+filePath=$(getAllPathValues)
+
+assembleTableHeaderBody $headers
 displayTableHeader
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
