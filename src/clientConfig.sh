@@ -2,7 +2,9 @@
 
 # ----------- DECLARE DEPENDENCIES -----------
 
-Dependencies=("configParser.sh")
+Dependencies=( \
+            "configParser.sh"\
+            )
 
 # ----------- SOLVE FILE DEPENDENCY -----------
 
@@ -39,30 +41,10 @@ function initClientConf(){
     then
         export RUNSSH_BARCONF="$1"
     else
-        echo "ERROR - NO CONFIG FILE NOT FOUND"
+        echo "ERROR - NO CONFIG FILE FOUND"
         return 1
     fi
 }
-
-
-##
-# Get the values from the "x_name" attribute in the config file
-# Parameters:
-# return: [string]
-##
-function getAllNameValues(){
-    local -a hdrs=() 
-    for pfx in $(clientConf "prefixes")
-    do
-        for hdr in $(clientConf "values" $pfx)
-        do
-            hrds+=($hdr)
-            break;
-        done
-    done
-    echo ${hrds[@]}
-}
-
 
 ##
 # Parameters: (string item)
@@ -98,4 +80,46 @@ function clientConf(){
             return 1
             ;;
     esac
+}
+
+##
+# Get the values from the "x_name" attribute in the config file
+# Parameters:
+# return: [string]
+##
+function getAllNameValues(){
+    local -a names=() 
+    for pfx in $(clientConf "prefixes")
+    do
+        for name in $(clientConf "options" $pfx)
+        do
+            if [ $(grep -ic "_name" <<< $name) -eq 1 ]
+            then
+                names+=($(getValue $name))
+            fi
+            # break;
+        done
+    done
+    echo ${names[@]}
+}
+
+
+##
+# Get the values from the "x_path" attribute in the config file
+# Parameters:
+# return: [string]
+##
+function getAllPathValues(){
+    local -a paths=() 
+    for pfx in $(clientConf "prefixes")
+    do
+        for opt in $(clientConf "options" $pfx)
+        do
+            if [ $(grep -ic "_path" <<< $opt) -eq 1 ]
+            then
+                paths+=($(getValue $opt))
+            fi
+        done
+    done
+    echo ${paths[@]}
 }

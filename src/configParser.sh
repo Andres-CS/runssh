@@ -87,26 +87,3 @@ function missingOptions(){
 
 	echo $missing
 }
-
-# items=( $(getPrefixes $file) )
-
-
-# getOptions $file "1_"
-
-# for i in ${items[@]}
-# do
-# 	for opt in $(getOptions $file $i)
-# 	do
-# 		echo $(getAttributes $opt)
-# 		echo $(getValues $opt)
-# 	done
-# done
-
-
-# atts=( $(getAttributes $(getOptions $file "2_")) )
-# for a in ${atts[@]}
-# do
-# 	echo $a
-# done
-
-# echo $(missingOptions $file ${items[@]})
