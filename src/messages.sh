@@ -21,13 +21,19 @@ do
     file=$BASE_DIR"/"$file
     if [ ! -f $file ]
     then
-        msg_error "The below file cannot be found: \n $file"
+        err_msg "The below file cannot be found: \n $file"
         exit 1
     fi
     source $file
 done
 
 # ----------- START SCRIPT -----------
+
+YELLOW='\033[1;33m'
+ERROR_COLOR='\033[0;31m'
+SUCCESS_COLOR='\033[0;32m'
+NO_COLOR='\033[0m'
+IYellow='\033[0;93m'
 
 function welcome_msg(){
     echo -e "${YELLOW}"

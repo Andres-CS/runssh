@@ -37,19 +37,6 @@ done
 
 # ----------- START SCRIPT -----------
 
-YELLOW='\033[1;33m'
-ERROR_COLOR='\033[0;31m'
-SUCCESS_COLOR='\033[0;32m'
-NO_COLOR='\033[0m'
-IYellow='\033[0;93m'
-
-
-# --- Functions ---
-
-
-
-# --- START SCRIPT ---
-
 initClientConf $runssh_conf
 
 # --- CHECK CONFIG --- 
