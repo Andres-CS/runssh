@@ -2,7 +2,7 @@
 
 # ----------- DECLARE DEPENDENCIES -----------
 
-Dependencies=()
+Dependencies=( "colors" )
 
 # ----------- SOLVE FILE DEPENDENCY -----------
 
@@ -28,8 +28,6 @@ do
 done
 
 # ----------- START SCRIPT -----------
-
-
 
 function welcome_msg(){
     echo -e "${YELLOW}"
