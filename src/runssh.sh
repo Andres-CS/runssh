@@ -194,7 +194,7 @@ else
 
 fi
 
-read -t 3 -p "Host Number OR Menu Letter: " answ
+read -t 3 -p "Host Number OR Menu Letter [q to quit]: " answ
 
 if [ -z "$answ" ]
 then
@@ -203,7 +203,12 @@ else
     #Check if user input is not number
     if [ $((answ)) != $answ ]
     then
-        echo ${!lpaht[@]}
+        if [ $answ == 'q' ]
+        then
+           warning_msg "Exiting runSSH"
+            exit 0
+        fi
+        # echo ${!lpaht[@]}
         # echo ${links["a"]}
 
         warning_msg "You inputed letter: '${answ}'" 
