@@ -43,26 +43,26 @@ IYellow='\033[0;93m'
 
 # --- Functions ---
 
-welcome_msg(){
+function welcome_msg(){
     echo -e "${YELLOW}"
     figlet "RunnSSH"
     echo -e "${NO_COLOR}"
     echo -e "Welcome to ${YELLOW}RunSSH${NO_COLOR} please select the host you want to access\n"
 }
 
-err_msg(){
+function err_msg(){
     echo -e "${ERROR_COLOR}$1${NO_COLOR}"
 } 
 
-succ_msg(){
+function succ_msg(){
     echo -e "${SUCCESS_COLOR}$1${NO_COLOR}"
 }
 
-warning_msg(){
+function warning_msg(){
     echo -e "${IYellow}$1${NO_COLOR}"
 }
 
-create_array(){
+function create_array(){
     local -a tmp_array=()
     if [[ "$2" == "Host" ]]
     then 
@@ -75,7 +75,7 @@ create_array(){
     echo ${tmp_array[@]}
 }
 
-largest_string(){
+function largest_string(){
     local len=0
     for n in $@
     do
@@ -87,7 +87,19 @@ largest_string(){
     echo $len
 }
 
-install_figma(){
+function linkPathManeu(){
+    declare -A links
+    local -a letters=($(__getMenuLetters ${@:1:$#}))
+    tmp=$(($# - 1))
+    for ((c=0; c <= $tmp; c++))
+    do
+        links[${letters[$c]}]=${!c}
+    done
+
+    echo ${links[@]}
+}
+
+function install_figma(){
     os_release="/etc/os-release"
     insystem=$(which figlet)
     echo $insystem | grep -o "no figlet"
@@ -144,6 +156,8 @@ welcome_msg
 headers=$(getAllNameValues)
 filePath=$(getAllPathValues)
 
+declare -rA lpaht=$(linkPathManeu ${filePath[@]})
+
 assembleTableHeaderBody $headers
 displayTableHeader
 
@@ -189,6 +203,9 @@ else
     #Check if user input is not number
     if [ $((answ)) != $answ ]
     then
+        echo ${!lpaht[@]}
+        # echo ${links["a"]}
+
         warning_msg "You inputed letter: '${answ}'" 
         warning_msg "Which could be an option in a new feature being implemented."
         warning_msg "However said feautre is not complete yet."
