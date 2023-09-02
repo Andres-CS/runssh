@@ -205,7 +205,7 @@ else
     then
         if [ $answ == 'q' ]
         then
-           warning_msg "Exiting runSSH"
+            warning_msg "Exiting runSSH"
             exit 0
         fi
         # echo ${!lpaht[@]}
