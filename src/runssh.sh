@@ -4,6 +4,8 @@
 
 Dependencies=( \
             "../.env" \
+            "menuCreation.sh" \
+            "messages.sh" \
             "clientConfig.sh" \
             "ascii_table.sh" \
             "colors" \
@@ -43,24 +45,6 @@ IYellow='\033[0;93m'
 
 # --- Functions ---
 
-function welcome_msg(){
-    echo -e "${YELLOW}"
-    figlet "RunnSSH"
-    echo -e "${NO_COLOR}"
-    echo -e "Welcome to ${YELLOW}RunSSH${NO_COLOR} please select the host you want to access\n"
-}
-
-function err_msg(){
-    echo -e "${ERROR_COLOR}$1${NO_COLOR}"
-} 
-
-function succ_msg(){
-    echo -e "${SUCCESS_COLOR}$1${NO_COLOR}"
-}
-
-function warning_msg(){
-    echo -e "${IYellow}$1${NO_COLOR}"
-}
 
 function create_array(){
     local -a tmp_array=()
