@@ -33,7 +33,7 @@ done
 # Populate associative array with file paths
 # Parameters:
 #   [Array] links - array pass by reference to be populated
-#   [] - n number of paths to be placed in array
+#   * - n number of paths to be placed in array
 # return:
 ##
 function linkPathMenu(){
