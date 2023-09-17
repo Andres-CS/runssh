@@ -28,3 +28,26 @@ do
 done
 
 # ----------- START SCRIPT -----------
+
+##
+# Populate associative array with file paths
+# Parameters:
+#   [Array] links - array pass by reference to be populated
+#   [] - n number of paths to be placed in array
+# return:
+##
+function linkPathMenu(){
+    declare -n links="$1"
+    # Array slicing {@:start:end} -> start from 2, we do not want the 1st 2 args.
+    local -a letters=($(__getMenuLetters ${@:2:$#}))
+    numArgs=$(($#))
+    for ((c=0; c <= $numArgs; c++))
+    do
+        currLetter=${letters[$c]}
+        # Add 2 to the offset the pos args, we do not want the 1st 2 args.
+        offset=$((c+2))
+        currValue=${!offset}
+        links["$currLetter"]="$currValue"
+    done
+}
+

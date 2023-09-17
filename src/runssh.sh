@@ -66,6 +66,7 @@ fi
 declare -a hostArray=()
 declare -a hostnameArray=()
 declare -a menued_hostArray=()
+declare -A lpath
 
 for n in $(create_array $target_path "Host")
 do
@@ -82,12 +83,14 @@ done
 welcome_msg
 
 headers=$(getAllNameValues)
-filePath=$(getAllPathValues)
+filePaths=$(getAllPathValues)
 
-declare -rA lpaht=$(linkPathManeu ${filePath[@]})
+linkPathMenu lpath ${filePaths[@]} 
 
 assembleTableHeaderBody $headers
 displayTableHeader
+
+# --- PRINT HOSTS MENU ---
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
 then
@@ -122,13 +125,18 @@ else
 
 fi
 
+# --- PROMPT FOR USER INPUT --- 
+
 read -t 3 -p "Host Number OR Menu Letter [q to quit]: " answ
+
+
+# --- CHECK USERS RESPONSE --- 
 
 if [ -z "$answ" ]
 then
     err_msg "No option selected. Exiting"
 else
-    #Check if user input is not number
+    # Check if user input is not number
     if [ $((answ)) != $answ ]
     then
         if [ $answ == 'q' ]
@@ -136,19 +144,22 @@ else
             warning_msg "Exiting runSSH"
             exit 0
         fi
-        # echo ${!lpaht[@]}
-        # echo ${links["a"]}
-
+        for k in "${!lpath[@]}"
+        do
+            echo "$k - ${lpath[$k]}"
+        done
         warning_msg "You inputed letter: '${answ}'" 
         warning_msg "Which could be an option in a new feature being implemented."
         warning_msg "However said feautre is not complete yet."
         warning_msg "--------"
         warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
     else
+        # If user input is a number
         if [ $answ -gt $c ]
         then 
             err_msg "Option seleted: ${answ}, not valid. Exiting"
         else
+            # Deploy new terminal with ssh command running
             gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
         fi
     fi 

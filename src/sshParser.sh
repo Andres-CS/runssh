@@ -58,17 +58,17 @@ function largest_string(){
     echo $len
 }
 
-function linkPathManeu(){
-    declare -A links
-    local -a letters=($(__getMenuLetters ${@:1:$#}))
-    tmp=$(($# - 1))
-    for ((c=0; c <= $tmp; c++))
-    do
-        links[${letters[$c]}]=${!c}
-    done
+# function linkPathManeu(){
+#     declare -A links
+#     local -a letters=($(__getMenuLetters ${@:1:$#}))
+#     tmp=$(($# - 1))
+#     for ((c=0; c <= $tmp; c++))
+#     do
+#         links[${letters[$c]}]=${!c}
+#     done
 
-    echo ${links[@]}
-}
+#     echo ${links[@]}
+# }
 
 function install_figma(){
     os_release="/etc/os-release"
