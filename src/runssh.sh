@@ -127,7 +127,7 @@ fi
 
 # --- PROMPT FOR USER INPUT --- 
 
-read -t 3 -p "Host Number OR Menu Letter [q to quit]: " answ
+read -t 5 -p "Host Number OR Menu Letter [q to quit]: " answ
 
 
 # --- CHECK USERS RESPONSE --- 
@@ -136,7 +136,7 @@ if [ -z "$answ" ]
 then
     err_msg "No option selected. Exiting"
 else
-    # Check if user input is not number
+    # Check if user input is not number (if it's a char)
     if [ $((answ)) != $answ ]
     then
         if [ $answ == 'q' ]
@@ -144,15 +144,21 @@ else
             warning_msg "Exiting runSSH"
             exit 0
         fi
-        for k in "${!lpath[@]}"
-        do
-            echo "$k - ${lpath[$k]}"
-        done
-        warning_msg "You inputed letter: '${answ}'" 
-        warning_msg "Which could be an option in a new feature being implemented."
-        warning_msg "However said feautre is not complete yet."
-        warning_msg "--------"
-        warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
+
+        # Check user's input is a KEY in the associative menu
+        if [ -v "lpath[$answ]" ]
+        then
+            warning_msg "You have selected to see file: ${lpath[$answ]}"
+            # gnome-terminal -- bash -c "nano lpath[$answ] && exec bash"
+            cat ${lpath[$answ]}
+        else
+            warning_msg "You inputed letter: '${answ}'" 
+            warning_msg "Which could be an option in a new feature being implemented."
+            warning_msg "However said feautre is not complete yet."
+            warning_msg "--------"
+            warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
+        fi
+
     else
         # If user input is a number
         if [ $answ -gt $c ]
