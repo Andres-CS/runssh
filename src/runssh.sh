@@ -4,8 +4,11 @@
 
 Dependencies=( \
             "../.env" \
+            "menuCreation.sh" \
+            "messages.sh" \
             "clientConfig.sh" \
             "ascii_table.sh" \
+            "sshParser.sh" \
             "colors" \
         )
 
@@ -26,88 +29,13 @@ do
     file=$BASE_DIR"/"$file
     if [ ! -f $file ]
     then
-        msg_error "The below file cannot be found: \n $file"
+        err_msg "The below file cannot be found: \n $file"
         exit 1
     fi
     source $file
 done
 
 # ----------- START SCRIPT -----------
-
-YELLOW='\033[1;33m'
-ERROR_COLOR='\033[0;31m'
-SUCCESS_COLOR='\033[0;32m'
-NO_COLOR='\033[0m'
-IYellow='\033[0;93m'
-
-
-# --- Functions ---
-
-function welcome_msg(){
-    echo -e "${YELLOW}"
-    figlet "RunnSSH"
-    echo -e "${NO_COLOR}"
-    echo -e "Welcome to ${YELLOW}RunSSH${NO_COLOR} please select the host you want to access\n"
-}
-
-function err_msg(){
-    echo -e "${ERROR_COLOR}$1${NO_COLOR}"
-} 
-
-function succ_msg(){
-    echo -e "${SUCCESS_COLOR}$1${NO_COLOR}"
-}
-
-function warning_msg(){
-    echo -e "${IYellow}$1${NO_COLOR}"
-}
-
-function create_array(){
-    local -a tmp_array=()
-    if [[ "$2" == "Host" ]]
-    then 
-        tmp_array=$(grep -w "^Host" $1 | cut -d " " -f2)
-    elif [[ "$2" == "Hostname" ]]
-    then
-        tmp_array=$(grep -w Hostname $1 | cut -d " " -f3)
-    fi
-
-    echo ${tmp_array[@]}
-}
-
-function largest_string(){
-    local len=0
-    for n in $@
-    do
-        if [ $len -lt ${#n} ]
-        then
-            len=${#n}
-        fi
-    done
-    echo $len
-}
-
-function linkPathManeu(){
-    declare -A links
-    local -a letters=($(__getMenuLetters ${@:1:$#}))
-    tmp=$(($# - 1))
-    for ((c=0; c <= $tmp; c++))
-    do
-        links[${letters[$c]}]=${!c}
-    done
-
-    echo ${links[@]}
-}
-
-function install_figma(){
-    os_release="/etc/os-release"
-    insystem=$(which figlet)
-    echo $insystem | grep -o "no figlet"
-    #sudo dnf install figlet
-
-}
-
-# --- START SCRIPT ---
 
 initClientConf $runssh_conf
 
@@ -138,6 +66,7 @@ fi
 declare -a hostArray=()
 declare -a hostnameArray=()
 declare -a menued_hostArray=()
+declare -A lpath
 
 for n in $(create_array $target_path "Host")
 do
@@ -154,12 +83,14 @@ done
 welcome_msg
 
 headers=$(getAllNameValues)
-filePath=$(getAllPathValues)
+filePaths=$(getAllPathValues)
 
-declare -rA lpaht=$(linkPathManeu ${filePath[@]})
+linkPathMenu lpath ${filePaths[@]} 
 
 assembleTableHeaderBody $headers
 displayTableHeader
+
+# --- PRINT HOSTS MENU ---
 
 if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
 then
@@ -194,28 +125,47 @@ else
 
 fi
 
-read -t 3 -p "Host Number OR Menu Letter: " answ
+# --- PROMPT FOR USER INPUT --- 
+
+read -t 5 -p "Host Number OR Menu Letter [q to quit]: " answ
+
+
+# --- CHECK USERS RESPONSE --- 
 
 if [ -z "$answ" ]
 then
     err_msg "No option selected. Exiting"
 else
-    #Check if user input is not number
+    # Check if user input is not number (if it's a char)
     if [ $((answ)) != $answ ]
     then
-        echo ${!lpaht[@]}
-        # echo ${links["a"]}
+        if [ $answ == 'q' ]
+        then
+            warning_msg "Exiting runSSH"
+            exit 0
+        fi
 
-        warning_msg "You inputed letter: '${answ}'" 
-        warning_msg "Which could be an option in a new feature being implemented."
-        warning_msg "However said feautre is not complete yet."
-        warning_msg "--------"
-        warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
+        # Check user's input is a KEY in the associative menu
+        if [ -v "lpath[$answ]" ]
+        then
+            warning_msg "You have selected to see file: ${lpath[$answ]}"
+            # gnome-terminal -- bash -c "nano lpath[$answ] && exec bash"
+            cat ${lpath[$answ]}
+        else
+            warning_msg "You inputed letter: '${answ}'" 
+            warning_msg "Which could be an option in a new feature being implemented."
+            warning_msg "However said feautre is not complete yet."
+            warning_msg "--------"
+            warning_msg "IF this was not the desire action, please rerun 'runssh' and select the host using a digit as your input"
+        fi
+
     else
+        # If user input is a number
         if [ $answ -gt $c ]
         then 
             err_msg "Option seleted: ${answ}, not valid. Exiting"
         else
+            # Deploy new terminal with ssh command running
             gnome-terminal -- bash -c "echo ${hostArray[$answ]} && ssh -vv ${hostArray[$answ]} && exec bash"
         fi
     fi 
