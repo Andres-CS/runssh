@@ -88,42 +88,12 @@ filePaths=$(getAllPathValues)
 linkPathMenu lpath ${filePaths[@]} 
 
 assembleTableHeaderBody $headers
+
 displayTableHeader
 
 # --- PRINT HOSTS MENU ---
 
-if [ ${#hostArray[@]} == ${#hostnameArray[@]} ]
-then
-    # Menu Items
-    postFix="@"
-    maxlen=`largest_string ${hostArray[@]}`
-
-    c=0
-    for ((c=0; c<${#hostArray[@]}; c++))
-    do 
-        # Create var 'ws' with x number of whitespaces
-        # Truncate up to largest word 'maxlen'
-        # Print enclosed with quotes for it to show the whitespaces
-        printf -v ws %20s
-        hostArray[$c]=${hostArray[$c]}$ws
-        hostArray[$c]=${hostArray[$c]:0:$maxlen}
-        succ_msg "$c - ${hostArray[$c]}  ${postFix}  ${hostnameArray[$c]}"
-    done
-else
-    count=0
-    for i in ${hostArray[@]}
-    do 
-        succ_msg "$count - $i"
-        count=$(($count + 1))
-    done
-    count=0
-    for j in ${hostnameArray[@]}
-    do 
-        succ_msg "$count - $j"
-        count=$(($count + 1))
-    done
-
-fi
+diplsayTableHosts hostArray hostnameArray
 
 # --- PROMPT FOR USER INPUT --- 
 
