@@ -94,3 +94,42 @@ function displayTableHeader(){
     echo $TableHeadersBody
     addBorder "$TableHeadersBody"
 }
+
+function diplsayTableHosts()
+{
+    local -n hostAlias=$1
+    local -n hostAddress=$2
+
+    if [ ${#hostAlias[@]} == ${#hostAddress[@]} ]
+then
+    # Menu Items
+    postFix="@"
+    maxlen=`largest_string ${hostAlias[@]}`
+
+    c=0
+    for ((c=0; c<${#hostAlias[@]}; c++))
+    do 
+        # Create var 'ws' with x number of whitespaces
+        # Truncate up to largest word 'maxlen'
+        # Print enclosed with quotes for it to show the whitespaces
+        printf -v ws %20s
+        hostAlias[$c]=${hostAlias[$c]}$ws
+        hostAlias[$c]=${hostAlias[$c]:0:$maxlen}
+        succ_msg "$c - ${hostAlias[$c]}  ${postFix}  ${hostAddress[$c]}"
+    done
+else
+    count=0
+    for i in ${hostAlias[@]}
+    do 
+        succ_msg "$count - $i"
+        count=$(($count + 1))
+    done
+    count=0
+    for j in ${hostAddress[@]}
+    do 
+        succ_msg "$count - $j"
+        count=$(($count + 1))
+    done
+
+fi
+}
