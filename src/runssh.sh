@@ -39,8 +39,6 @@ done
 
 function checksshfileexisist()
 {
-    welcome_msg
-
     local -n targetPath=$1
 
     if ! [ -f $targetPath ]
