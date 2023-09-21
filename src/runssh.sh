@@ -39,13 +39,20 @@ done
 
 function checksshfileexisist()
 {
+    welcome_msg
+
     local -n targetPath=$1
 
     if ! [ -f $targetPath ]
     then
         while [ ! -f $targetPath ]
         do
-            err_msg "** Error - Path: ${targetPath} - NOT VALID."
+            err_msg "*******************************************"
+            err_msg "*                ERROR                    *"
+            err_msg "*******************************************"
+            err_msg "** PATH:"
+            warning_msg "** ${targetPath}"
+            err_msg "** NOT VALID."
             echo -n "** Enter a new Path: "
             read targetPath
         done
