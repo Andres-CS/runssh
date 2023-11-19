@@ -35,6 +35,29 @@ do
     source $file
 done
 
+# ----------- FUNCTIONS -----------
+
+function checksshfileexisist()
+{
+    local -n targetPath=$1
+
+    if ! [ -f $targetPath ]
+    then
+        while [ ! -f $targetPath ]
+        do
+            err_msg "*******************************************"
+            err_msg "*                ERROR                    *"
+            err_msg "*******************************************"
+            err_msg "** PATH:"
+            warning_msg "** ${targetPath}"
+            err_msg "** NOT VALID."
+            echo -n "** Enter a new Path: "
+            read targetPath
+        done
+        succ_msg "** Success - Path: ${targetPath} - VALID"
+    fi
+}
+
 # ----------- START SCRIPT -----------
 
 initClientConf $runssh_conf
@@ -47,22 +70,11 @@ active_user=$(echo $USER)
 #Predefine .SSH folder path
 target_path="/home/${active_user}/.ssh/config"
 
-# --- ACQUIRE HOSTS --- 
-
 #Test predefine SSH folder path
 #If bad, ask for a new path
-if ! [ -f $target_path ]
-then
-    while [ ! -f $target_path ]
-    do
-        err_msg "** Error - Path: ${target_path} - NOT VALID."
-        echo -n "** Enter a new Path: "
-        read target_path
-    done
-    succ_msg "** Success - Path: ${target_path} - VALID"
-fi
+checksshfileexisist target_path
 
-# --- STORE HOSTS IN ARRAY
+# --- ACQUIRE HOSTS --- 
 declare -a hostArray=()
 declare -a hostnameArray=()
 declare -a menued_hostArray=()
